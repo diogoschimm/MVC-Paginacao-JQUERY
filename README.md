@@ -37,9 +37,11 @@ Exemplo de Paginação Next + Previous JQUERY
     <p class="nome-documento"></p>
     <input id="idTipoDocumento" name="idTipoDocumento" />
     <button id="save">Atualizar</button>
+    
     <hr />
     <iframe id="iframe" width="100%" height="300px"></iframe>
     <hr />
+    
     <button id="prev" disabled>Previous</button>
     <button id="next" disabled>Next</button>
 </div>
@@ -59,23 +61,27 @@ Exemplo de Paginação Next + Previous JQUERY
                 }).done((resp) => {
                     data = resp;
                     console.log(data)
-                    if (data.Success) {
+                    if (data.Success) {                    
                         $('#error').html('');
-                        renderData();
+                        renderData();                        
                     } else {
                         $('#error').html(data.Message);
                     }
                 });
             }
+            
             function renderData() {
                 let document = data.Document;
+                
                 $('.id-documento').html(document.DocumentId);
                 $('.nome-documento').html(document.DocumentName);
                 $('#idTipoDocumento').val(document.DocumentTypeId);
                 $('#iframe').prop('src', document.UrlDocument);
+                
                 $('#prev').prop("disabled", data.Page == 1);
                 $('#next').prop("disabled", data.Page == data.Total);
             }
+            
             $('#save').click(() => {
                 var id = $('#idTipoDocumento').val();
                 if (id && id > 0) {
@@ -91,18 +97,22 @@ Exemplo de Paginação Next + Previous JQUERY
                     });
                 }
             });
+            
             $('#prev').click(() => {
                 if (data && data.Page - 1 >= 1) {
                     request(data.Page - 1);
                 }
             });
+            
             $('#next').click(() => {
                 if (data && data.Page + 1 <= data.Total) {
                     request(data.Page + 1);
                 }
             });
+            
             request(1);
         });
+        
     </script>
   }
 ```
